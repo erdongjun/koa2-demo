@@ -1,0 +1,14 @@
+body,#root{
+  display: flex;
+  width: 100%;
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  .logo{
+    width: 200px;
+    color: #fff;
+    text-align: center;
+  }
+}

@@ -16,4 +16,21 @@ body,#root{
     margin-left: 0;
     margin-right: auto;
   }
+  .header-avatarbox{
+    cursor: pointer;
+    margin-right: 20px;
+    color: #ccc;
+    .ant-avatar.ant-avatar-icon{
+      margin-right: 10px;
+    }
+  }
+
+
+}
+.content-footer{
+  margin: 10px;
+  text-align: center;
+}
+.content-wrap{
+  padding-top: 20px;
 }

@@ -1,21 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { Layout, Menu, Breadcrumb, Dropdown, Icon, Avatar, Row, Col } from 'antd'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
 
 import { isLogin } from '../../utils/tool'
-
-
 import './index.scss'
+import { className } from 'classnames';
 
 class HomeLayout extends React.Component {
   componentDidMount () {
     if(!isLogin()){
       this.props.history.push('/login')
     }
+  }
+  handleUserMenu(e){
+    if(e.key == 1){
+      localStorage.setItem('MYTOKEN','')
+      this.props.history.push('/login')
+    }
+  }
+  userMenu () {
+    return (
+      <Menu
+        theme="dark"
+        onClick={this.handleUserMenu.bind(this)}
+      >
+        <Menu.Item key="0"><Icon type="user" />查看资料</Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="1"><Icon type="poweroff" />注销登陆</Menu.Item>
+      </Menu>
+    )
   }
   render () {
     const { children } = this.props
@@ -34,31 +51,12 @@ class HomeLayout extends React.Component {
             <Menu.Item key="2">运营</Menu.Item>
             <Menu.Item key="3">广告</Menu.Item>
           </Menu>
-          <Menu
-            mode="inline"
-            style={{ width: 256 }}
-          >
-            <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
-              <Menu.Item key="1">Option 1</Menu.Item>
-              <Menu.Item key="2">Option 2</Menu.Item>
-              <Menu.Item key="3">Option 3</Menu.Item>
-              <Menu.Item key="4">Option 4</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>Navigation Two</span></span>}>
-              <Menu.Item key="5">Option 5</Menu.Item>
-              <Menu.Item key="6">Option 6</Menu.Item>
-              <SubMenu key="sub3" title="Submenu">
-                <Menu.Item key="7">Option 7</Menu.Item>
-                <Menu.Item key="8">Option 8</Menu.Item>
-              </SubMenu>
-            </SubMenu>
-            <SubMenu key="sub4" title={<span><Icon type="setting" /><span>Navigation Three</span></span>}>
-              <Menu.Item key="9">Option 9</Menu.Item>
-              <Menu.Item key="10">Option 10</Menu.Item>
-              <Menu.Item key="11">Option 11</Menu.Item>
-              <Menu.Item key="12">Option 12</Menu.Item>
-            </SubMenu>
-          </Menu>
+          <Dropdown overlay={this.userMenu()}>
+            <div className='header-avatarbox'>
+            <Avatar icon="user" />
+            <Icon type="caret-down" />
+            </div>
+          </Dropdown>
         </Header>
         <Layout>
           <Sider width={200} style={{ background: '#fff' }}>
@@ -88,15 +86,15 @@ class HomeLayout extends React.Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content>
-              {children}
+          <Layout>
+            <Content  className='content-wrap'>
+            <Row>
+              <Col span={1}></Col>
+              <Col span={22}>{children}</Col>
+              <Col span={1}></Col>
+            </Row>
             </Content>
+            <div className='content-footer'>@2018</div>
           </Layout>
         </Layout>
       </Layout>

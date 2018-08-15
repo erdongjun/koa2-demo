@@ -1,11 +1,7 @@
 // 权限验证
 const JwtUtil = require('../utils/jwt')
-
-
-
 const userCode = require('./../codes/user')
-
-const userModel = require('../models/user')
+const adminUserModel = require('../models/adminuser')
 
 module.exports = {
   /**
@@ -42,23 +38,28 @@ module.exports = {
    */
   async signIn( ctx ) {
     let user = ctx.request.body
-    console.log(user)
-    if (user && user.username) {
+    // 验证账号密码是否匹配
+    let result = await adminUserModel.getOneByUserNameAndPassword(user)
+    console.log(result)
+    if (result) {
       // 密码加密
       // JwtUtil.cryptPwd(user.password)
       let userToken = {
-        name: user.username
+        username:result.username
       }
       const token = JwtUtil.getToken(userToken)  //token签名 有效期为1小时
       ctx.body = {
-        message: '获取token成功',
         code: 1,
-        token
+        data:result,
+        msg: '登陆成功',
+        extra:{
+          token
+        },
       }
     } else {
       ctx.body = {
-        message: '参数错误',
-        code: -1
+        code: 0,
+        msg: '登陆失败',
       }
     }
     // console.log(formData)

@@ -39,7 +39,7 @@ const user = {
    */
   async getExistOne(options ) {
     let _sql = `
-    SELECT * from user_info
+    SELECT * from admin_user
       where email="${options.email}" or name="${options.name}"
       limit 1`
     let result = await dbUtils.query( _sql )
@@ -58,8 +58,9 @@ const user = {
    */
   async getOneByUserNameAndPassword( options ) {
     let _sql = `
-    SELECT * from user_info
-      where password="${options.password}" and name="${options.name}"
+      SELECT uid, username, role, super 
+      from admin_user
+      where password="${options.password}" and username="${options.username}"
       limit 1`
     let result = await dbUtils.query( _sql )
     if ( Array.isArray(result) && result.length > 0 ) {
@@ -77,7 +78,7 @@ const user = {
    */
   async getUserInfoByUserName( userName ) {
     let result = await dbUtils.select(
-      'user_info',
+      'admin_user',
       ['id', 'email', 'name', 'detail_info', 'create_time', 'modified_time', 'modified_time' ])
     if ( Array.isArray(result) && result.length > 0 ) {
       result = result[0]

@@ -5,10 +5,15 @@ body,#root{
 .header{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   padding: 0;
   .logo{
     width: 200px;
     color: #fff;
     text-align: center;
+  }
+  .header-menu{
+    margin-left: 0;
+    margin-right: auto;
   }
 }

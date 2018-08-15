@@ -4,6 +4,7 @@ import { Layout, Form, Icon, Input, Button, Checkbox } from 'antd'
 const FormItem = Form.Item
 
 import { Utilfetch } from '../../utils/fetch'
+import { isLogin } from '../../utils/tool'
 import { userLogin } from '../../store/user/action'
 import './index.scss'
 
@@ -17,25 +18,15 @@ class LoginForm extends Component {
           username: values.userName,
           password: values.password
         }).then((res) => {
-          localStorage.setItem('MYTOKEN',res.token)
-          Utilfetch.get('/adminuser/getinfo/34').then((res1)=>{
-          })
+          localStorage.setItem('MYTOKEN',res.extra.token)
+          this.props.dispatch(userLogin(res.data))
+          this.props.history.push('/')
         })
-        // this.props.dispatch(userLogin({name: values.userName}))
       }
     })
-
-
-  }
-  componentDidUpdate(){
-    const {userInfo} = this.props
-    if(userInfo && userInfo.name ) {
-      this.props.history.push('/')
-    }
   }
   componentDidMount (){
-    const {userInfo} = this.props
-    if(userInfo && userInfo.name ) {
+    if(isLogin()){
       this.props.history.push('/')
     }
   }

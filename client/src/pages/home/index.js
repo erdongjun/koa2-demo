@@ -20,7 +20,6 @@ class Home extends Component {
   }
   render () {
     const {userInfo} = this.props
-    console.log(userInfo)
     return (
       <HomeLayout>
         <section className='page-header'>

@@ -8,7 +8,6 @@ const userLogin = (info) =>({
 const userSignout = () =>({
   type: USER_SIGNSIGNOUT
 })
-
 export {
   userLogin,
   userSignout

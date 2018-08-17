@@ -1,15 +1,12 @@
 
-import {MENU_SUC,MENU_RES} from './type'
+import {MENU_LIST} from './type'
 
-const userLogin = (info) =>({
-  type: USER_LOGIN,
+const setMenuList = (info) =>({
+  type: MENU_LIST,
   info
 })
-const userSignout = () =>({
-  type: USER_SIGNSIGNOUT
-})
+
 
 export {
-  userLogin,
-  userSignout
+  setMenuList
 }

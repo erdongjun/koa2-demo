@@ -206,6 +206,20 @@ module.exports = {
       result.code = ''
     }
     return result
+  },
+
+  /**
+   *
+   *
+   * @param {obejct} ctx
+   */
+  async getMenuList (ctx) {
+    let result = {
+      success: false,
+      message: '',
+      data: null,
+    }
+    ctx.body = result
   }
 
 

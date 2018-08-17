@@ -1,17 +1,31 @@
+/*
+ * @Author: chenweizhi 
+ * @Date: 2018-08-17 20:30:15 
+ * @Last Modified by: chenweizhi
+ * @Last Modified time: 2018-08-17 21:00:39
+ */
+
+// core 核心组件
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Layout, Row, Col } from 'antd'
-
 const { Content, Sider } = Layout
-
+// UI组件
 import MenuSider from './MenuSider'
 import MenuHeader from './MenuHeader'
-
+// 公共函数
 import { isLogin, getUserInfo } from '../../utils/tool'
-import { userLogin } from '../../store/user/action'
-
+// css
 import './index.scss'
+// stroe actin对象
+import { userLogin } from '../../store/user/action'
+import { setMenuList } from '../../store/menu/action'
+// async 异步请求函数
+import { asyncMenuList } from '../../store/menu/index'
+
+
+
 class HomeLayout extends React.Component {
   constructor (props) {
     super(props)
@@ -21,15 +35,20 @@ class HomeLayout extends React.Component {
       userInfo: {},
     }
   }
-  componentDidMount () {
+  async componentDidMount () {
     if(!isLogin()){
       this.props.history.push('/Login')
       return false
     }
-    this.props.dispatch(userLogin(getUserInfo()))
+    let info = getUserInfo()
+    // 设置redux全局用户信息
+    this.props.dispatch(userLogin(info))
+    // 获取该用户有权限的菜单列表
+    let result = await asyncMenuList({uid:info.uid})
+    console.log(result)
+
   }
   onOpenChange (openKeys) {
-    console.log(this,openKeys)
     const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1)
     if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       this.setState({ openKeys });
@@ -47,11 +66,10 @@ class HomeLayout extends React.Component {
     }
   }
   render () {
-    console.log()
     const { children, userInfo } = this.props
     return (
       <Layout>
-        <MenuHeader handleUserMenu={this.handleUserMenu.bind(this)}  userInfo={userInfo && userInfo.info}/>
+        <MenuHeader handleUserMenu={this.handleUserMenu.bind(this)}  userInfo={userInfo}/>
         <Layout>
           <Sider width={200} style={{ background: '#fff' }}>
             <MenuSider/>
@@ -72,4 +90,4 @@ class HomeLayout extends React.Component {
   }
 }
 
-export default withRouter(connect(({userInfo}) =>({userInfo}))(HomeLayout))
+export default withRouter(connect(({userInfo,menuList}) =>({userInfo,menuList}))(HomeLayout))

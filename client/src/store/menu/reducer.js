@@ -1,27 +1,20 @@
 
-import {USER_LOGIN,USER_SIGNSIGNOUT,USER_UPDATE} from './type'
+import {MENU_LIST} from './type'
 
-const userInfo = (state = {}, action) => {
-  console.log(action)
+const menuList = (state = {}, action) => {
   switch (action.type) {
-    case USER_LOGIN:
+    case MENU_LIST:
       return {
-        ...state,
+        state,
         ...{
           type: action.type,
-          info: action.info
+          ...action.info
         }
-      }
-    case USER_SIGNSIGNOUT:
-      return {
-          type: action.type,
-          info: {}
       }
     default:
       return state
   }
 }
-
 export {
-  userInfo
+  menuList
 }

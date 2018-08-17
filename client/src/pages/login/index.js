@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Layout, Form, Icon, Input, Button, Checkbox, message } from 'antd'
 const FormItem = Form.Item
 
-import { Utilfetch } from '../../utils/fetch'
 import { isLogin } from '../../utils/tool'
-import { userLogin } from '../../store/user/action'
+import { userLogin } from '../../store/user/index'
 import './index.scss'
 
 class LoginForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        // 发起登陆请求
-        Utilfetch.post('/adminuser/signin',{
-          username: values.userName,
-          password: values.password
-        }).then((res) => {
-          localStorage.setItem('MYTOKEN',res.extra.token)
-          this.props.dispatch(userLogin(res.data))
-          this.props.history.push('/')
+       let result = await userLogin({
+            username: values.userName,
+            password: values.password
         })
+        if(result.code === 1){
+          message.success(result.msg)
+          localStorage.setItem('MYTOKEN',result.extra.token)
+          localStorage.setItem('USERINFO',JSON.stringify(result.data))
+          this.props.history.push('/')
+        }else{
+          message.error(result.msg)
+        }
       }
     })
   }

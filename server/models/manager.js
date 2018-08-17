@@ -8,7 +8,7 @@ const user = {
    * @return {object}       mysql执行结果
    */
   async create ( model ) {
-    let result = await dbUtils.query( 'admin_user', model )
+    let result = await dbUtils.query( 'manager', model )
     return result
   },
 
@@ -19,7 +19,7 @@ const user = {
    */
   async getUserInfo(uid) {
     let _sql = `
-    SELECT * from admin_user
+    SELECT * from manager
       where uid='${uid}'
       limit 1`
     let result = await dbUtils.query( _sql )
@@ -39,7 +39,7 @@ const user = {
    */
   async getExistOne(options ) {
     let _sql = `
-    SELECT * from admin_user
+    SELECT * from manager
       where email="${options.email}" or name="${options.name}"
       limit 1`
     let result = await dbUtils.query( _sql )
@@ -59,7 +59,7 @@ const user = {
   async getOneByUserNameAndPassword( options ) {
     let _sql = `
       SELECT uid, username, role, super 
-      from admin_user
+      from manager
       where password="${options.password}" and username="${options.username}"
       limit 1`
     let result = await dbUtils.query( _sql )
@@ -78,7 +78,7 @@ const user = {
    */
   async getUserInfoByUserName( userName ) {
     let result = await dbUtils.select(
-      'admin_user',
+      'manager',
       ['id', 'email', 'name', 'detail_info', 'create_time', 'modified_time', 'modified_time' ])
     if ( Array.isArray(result) && result.length > 0 ) {
       result = result[0]

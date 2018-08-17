@@ -1,21 +1,6 @@
 import 'whatwg-fetch'
 import 'es6-promise'
 
-import { message } from 'antd';
-
-
-const success = (msg) => {
-    message.success(msg);
-}
-
-const error = (msg) => {
-    message.error(msg);
-}
-
-const warning = (msg) => {
-    message.warning(msg)
-}
-
 
 export const Utilfetch = {}
 
@@ -53,24 +38,13 @@ Utilfetch.get = function (url = '', params = {}, headers = {}) {
         })
         .then((response) => {
             if (response.ok) {
-                return response.json();
+                resolve(response.json())
             } else {
-                //   reject({status:response.status})  
-                error(response.status)
-            }
-        })
-        .then((response) => {
-            error(response.status)
-            if (response.code != 0) {
-                resolve(response);
-            } else {
-                error(response.msg)
-
+                reject({msg:response.status})  
             }
         })
         .catch((err) => {
             reject(err);
-            error(err)
         })
     })
 }
@@ -100,22 +74,13 @@ Utilfetch.post = function (url = '', params = {}, headers = {}) {
         })
             .then((response) => {
                 if (response.ok) {
-                    return response.json();
+                    resolve(response.json())
                 } else {
-                    error(response.status)
-                }
-            })
-            .then((response) => {
-                if (response.code != 0) {
-                    success(response.msg)
-                    resolve(response)
-                } else {
-                    error(response.msg)
+                    reject({msg:response.status})  
                 }
             })
             .catch((err) => {
                 error(err)
-
             })
     })
 }

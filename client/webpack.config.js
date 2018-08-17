@@ -24,13 +24,13 @@ module.exports = {
             new UglifyJsPlugin()
         ],
         splitChunks: {
-          cacheGroups: {
-            vendor: {
-              chunks:'initial', // 
-              name:'vendor', // 入口的entry的key
-              enforce:true   // 强制 
+            cacheGroups: {
+                vendor: {
+                    chunks: 'initial', // 
+                    name: 'vendor', // 入口的entry的key
+                    enforce: true   // 强制 
+                }
             }
-          }
         }
     },
     devtool: 'source-map',
@@ -66,8 +66,8 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
-                  fallback: "style-loader",
-                  use: "css-loader!postcss-loader!sass-loader"
+                    fallback: "style-loader",
+                    use: "css-loader!postcss-loader!sass-loader"
                 })
             },
             // 解析字体文件
@@ -103,7 +103,7 @@ module.exports = {
         // 设置热更新
         hot: true,
         proxy: [{
-            context: ['/api', '/adminuser'],
+            context: ['/api', '/manager'],
             target: 'http://localhost:3000'
         }]
     },

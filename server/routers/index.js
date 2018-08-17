@@ -6,11 +6,11 @@ const router = require('koa-router')()
 
 const home = require('./home')
 const api = require('./api')
-const adminuser = require('./adminuser')
+const manager = require('./manager')
 
 
 router.use('/', home.routes(), home.allowedMethods())
-router.use('/adminuser', adminuser.routes(), adminuser.allowedMethods())
+router.use('/manager', manager.routes(), manager.allowedMethods())
 router.use('/api', api.routes(), api.allowedMethods())
 
 

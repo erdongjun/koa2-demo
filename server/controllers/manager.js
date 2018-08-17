@@ -1,7 +1,7 @@
 // 权限验证
 const JwtUtil = require('../utils/jwt')
 const userCode = require('./../codes/user')
-const adminUserModel = require('../models/adminuser')
+const managerModel = require('../models/manager')
 
 module.exports = {
   /**
@@ -38,8 +38,9 @@ module.exports = {
    */
   async signIn( ctx ) {
     let user = ctx.request.body
+    console.log(ctx)
     // 验证账号密码是否匹配
-    let result = await adminUserModel.getOneByUserNameAndPassword(user)
+    let result = await managerModel.getOneByUserNameAndPassword(user)
     console.log(result)
     if (result) {
       // 密码加密

@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
-
-import { Link } from 'react-router-dom'
-
 import HomeLayout from '../../containers/layouts/HomeLayout'
+import './index.scss'
 
 class NoMatch extends Component {
+  componentDidMount(){
+    this.flag = true
+    setTimeout(() => {
+      this.props.history.push('/')
+    }, 3000);
+  }
   render () {
     return (
       <HomeLayout>
-        <div>404</div>
-        <Link to="/">home</Link>
+        <div className='nomatch'>
+          <p>404，抱歉，页面没找到</p>
+          <p>3s后返回首页</p>
+        </div>
       </HomeLayout>
     )
   }

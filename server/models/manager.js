@@ -87,9 +87,33 @@ const user = {
     }
     return result
   },
-
-
-
+  /**
+   *
+   * @param {*} uid 管理员id
+   * @param {*} super 是否是超级管理员
+   * @returns [arr] 菜单列表
+    * @param {*} param0 
+    */
+  async getAllMenu(payload){
+    let sql = `select * from menu order by id`
+    let result = await dbUtils.query(sql)
+    // 序列化菜单分类
+    let list = sortMenuList (result,0,1)
+    return list
+  }
+}
+//  无极限分类排序
+function sortMenuList (arr,pid,level){
+  let result = []
+  arr.forEach(item => {
+    if(item.p_id == pid){
+      let subItem = item
+      subItem.level = level
+      subItem.list = sortMenuList (arr,item.id,++level)
+      result.push(subItem)
+    }
+  })
+  return result
 }
 
 

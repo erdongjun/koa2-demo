@@ -5,11 +5,8 @@ const menuList = (state = {}, action) => {
   switch (action.type) {
     case MENU_LIST:
       return {
-        state,
-        ...{
-          type: action.type,
-          ...action.info
-        }
+        ...state,
+        ...action
       }
     default:
       return state

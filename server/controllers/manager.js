@@ -46,7 +46,7 @@ module.exports = {
       // 密码加密
       // JwtUtil.cryptPwd(user.password)
       let userToken = {
-        username:result.username
+        ...result
       }
       const token = JwtUtil.getToken(userToken)  //token签名 有效期为1小时
       ctx.body = {
@@ -63,42 +63,7 @@ module.exports = {
         msg: '登陆失败',
       }
     }
-    // console.log(formData)
-    // let result = {
-    //   success: false,
-    //   message: '',
-    //   data: null,
-    //   code: ''
-    // }
-    // ctx.body = result
     
-
-  
-
-    // let userResult = await userInfoService.signIn( formData )
-
-    // if ( userResult ) {
-    //   if ( formData.userName === userResult.name ) {
-    //     result.success = true
-    //   } else {
-    //     result.message = userCode.FAIL_USER_NAME_OR_PASSWORD_ERROR
-    //     result.code = 'FAIL_USER_NAME_OR_PASSWORD_ERROR'
-    //   }
-    // } else {
-    //   result.code = 'FAIL_USER_NO_EXIST',
-    //   result.message = userCode.FAIL_USER_NO_EXIST
-    // }
-
-    // if ( formData.source === 'form' && result.success === true ) {
-    //   let session = ctx.session
-    //   session.isLogin = true
-    //   session.userName = userResult.name
-    //   session.userId = userResult.id
-
-    //   ctx.redirect('/work')
-    // } else {
-    //   ctx.body = result
-    // }
   },
 
   /**
@@ -214,12 +179,25 @@ module.exports = {
    * @param {obejct} ctx
    */
   async getMenuList (ctx) {
-    let result = {
-      success: false,
-      message: '',
-      data: null,
+    const token = ctx.header.authorization  // 获取jwt
+    let payload
+    if (token) {
+      let payload = JwtUtil.getJWTPayload(token)  // // 解密，获取payload
+      // 拉取所有菜单
+      let result = await managerModel.getAllMenu(payload)
+
+      ctx.body = {
+       code: 1,
+       data:result,
+       msg: '获取菜单列表成功',
+       extra:{}
+      }
+    } else {
+      ctx.body = {
+        message: '获取菜单列表错误',
+        code: 0
+      }
     }
-    ctx.body = result
   }
 
 

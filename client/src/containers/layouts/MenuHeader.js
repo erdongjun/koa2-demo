@@ -12,6 +12,9 @@ class MenuHeader extends React.Component {
   handleUserMenu (e) {
     this.props.handleUserMenu(e)
   }
+  handleMainMenu (e) {
+    this.props.handleMainMenu(e)
+  }
   userMenu () {
     return (
       <Menu
@@ -25,21 +28,22 @@ class MenuHeader extends React.Component {
     )
   }
   render() {
+    let {menuList} = this.props
+    console.log(menuList)
     return (
       <Header className="header">
           <div className="logo">后台管理</div>
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['1']}
+            // defaultSelectedKeys={['1']}
             style={{ lineHeight: '64px' }}
             className='header-menu'
+            onClick={this.handleMainMenu.bind(this)}
           >
-            <Menu.Item key="1">管理</Menu.Item>
-            <Menu.Item key="2">运营</Menu.Item>
-            <Menu.Item key="3">广告</Menu.Item>
-           
-            <Menu.Item key="4"> </Menu.Item>
+          {menuList.map(item => (
+            <Menu.Item key={item.id}>{item.name}</Menu.Item>
+          ))}
           </Menu>
           <Dropdown overlay={this.userMenu()}>
             <div className='header-avatarbox'>

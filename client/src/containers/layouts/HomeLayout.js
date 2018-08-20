@@ -2,7 +2,7 @@
  * @Author: chenweizhi 
  * @Date: 2018-08-17 20:30:15 
  * @Last Modified by: chenweizhi
- * @Last Modified time: 2018-08-17 21:00:39
+ * @Last Modified time: 2018-08-20 22:52:32
  */
 
 // core 核心组件
@@ -15,14 +15,9 @@ const { Content, Sider } = Layout
 import MenuSider from './MenuSider'
 import MenuHeader from './MenuHeader'
 // 公共函数
-import { isLogin, getUserInfo } from '../../utils/tool'
+import { isLogin } from '../../utils/tool'
 // css
 import './index.scss'
-// stroe actin对象
-import { userLogin } from '../../store/user/action'
-import { setMenuList } from '../../store/menu/action'
-// async 异步请求函数
-import { asyncMenuList } from '../../store/menu/index'
 
 
 
@@ -40,13 +35,6 @@ class HomeLayout extends React.Component {
       this.props.history.push('/Login')
       return false
     }
-    let info = getUserInfo()
-    // 设置redux全局用户信息
-    this.props.dispatch(userLogin(info))
-    // 获取该用户有权限的菜单列表
-    let result = await asyncMenuList({uid:info.uid})
-    console.log(result)
-
   }
   onOpenChange (openKeys) {
     const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1)
@@ -59,17 +47,29 @@ class HomeLayout extends React.Component {
     }
   }
   handleUserMenu(e){
+    // 用户账户操作
     if(e.key == 1){
       localStorage.setItem('MYTOKEN','')
       localStorage.setItem('USERINFO','')
       this.props.history.push('/Login')
     }
   }
+  handleMainMenu(e){
+    // 一级菜单操作
+    const {menuList} = this.props
+    let menus = menuList && menuList.data || []
+    menus.forEach(item => {
+      if(e.key == item.id){
+        this.props.history.push(item.key)
+      }
+    });
+  }
   render () {
-    const { children, userInfo } = this.props
+    const { children, userInfo, menuList} = this.props
+    console.log(menuList)
     return (
       <Layout>
-        <MenuHeader handleUserMenu={this.handleUserMenu.bind(this)}  userInfo={userInfo}/>
+        <MenuHeader handleUserMenu={this.handleUserMenu.bind(this)} handleMainMenu={this.handleMainMenu.bind(this)}  userInfo={userInfo} menuList={menuList && menuList.data || []}/>
         <Layout>
           <Sider width={200} style={{ background: '#fff' }}>
             <MenuSider/>

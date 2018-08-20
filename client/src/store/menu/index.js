@@ -2,7 +2,7 @@
  * @Author: chenweizhi 
  * @Date: 2018-08-17 20:06:51 
  * @Last Modified by: chenweizhi
- * @Last Modified time: 2018-08-17 20:45:37
+ * @Last Modified time: 2018-08-20 22:26:16
  */
 
 import {Utilfetch} from '../../utils/fetch'
@@ -11,13 +11,9 @@ import {Utilfetch} from '../../utils/fetch'
  * @param {obj} option
  * @return {obj||null} 
  */
-const asyncMenuList = (option) => {
+const asyncMenuList = async (option) => {
   let {uid} = option
-  let result
-  Utilfetch.get(`/manager/list/${uid}`)
-  .then((res) => {
-    result = res
-  })
+  let result = Utilfetch.get(`/manager/list/${uid}`).then((res) => res)
   return result
 }
 export {

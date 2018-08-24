@@ -7,7 +7,9 @@ import 'babel-polyfill'
 
 import rootReducer from './store'
 import Root from './routers.js'
-console.log(process.env.NODE_ENV)
+
+// base.css
+import './containers/base/index.scss'
 
 const loggerMiddleware = createLogger()
 const store = createStore(

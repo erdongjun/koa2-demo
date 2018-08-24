@@ -2,7 +2,7 @@
  * @Author: chenweizhi 
  * @Date: 2018-08-17 20:30:15 
  * @Last Modified by: chenweizhi
- * @Last Modified time: 2018-08-23 23:01:12
+ * @Last Modified time: 2018-08-24 21:43:11
  */
 
 // core 核心组件
@@ -14,20 +14,17 @@ const { Content, Sider } = Layout
 // UI组件
 import MenuSider from './MenuSider'
 import MenuHeader from './MenuHeader'
-// 公共函数
-import { isLogin, getUserInfo } from '../../utils/tool'
+
 // css
 import './index.scss'
-
+// 公共函数
+import { isLogin, getUserInfo } from '../../utils/tool'
 // stroe actin动作
 import { userLogin } from '../../store/user/action'
 import { setMenuList } from '../../store/menu/action'
 
 // async 异步请求函数
 import { asyncMenuList } from '../../store/menu/index'
-
-
-
 
 class HomeLayout extends React.Component {
   constructor (props) {

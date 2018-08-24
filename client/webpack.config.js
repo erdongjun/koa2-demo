@@ -102,10 +102,12 @@ module.exports = {
         open: true,
         // 设置热更新
         hot: true,
-        proxy: [{
-            context: ['/api', '/manager'],
-            target: 'http://localhost:3000'
-        }]
+        proxy: {
+            '/api': {
+              target: 'http://localhost:3000',
+              pathRewrite: {'^/api' : ''}
+            }
+        }
     },
     plugins: [
         new CleanWebpackPlugin(['dist']), //传入数组,指定要删除的目录

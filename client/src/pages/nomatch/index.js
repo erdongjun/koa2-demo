@@ -5,9 +5,9 @@ import './index.scss'
 class NoMatch extends Component {
   componentDidMount(){
     this.flag = true
-    setTimeout(() => {
-      this.props.history.push('/')
-    }, 3000);
+    // setTimeout(() => {
+    //   this.props.history.push('/')
+    // }, 3000);
   }
   render () {
     return (

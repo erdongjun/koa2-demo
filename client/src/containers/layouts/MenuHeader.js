@@ -28,21 +28,20 @@ class MenuHeader extends React.Component {
     )
   }
   render() {
-    let {menuList} = this.props
-    console.log(menuList)
+    let {menuList,mainKey} = this.props
     return (
       <Header className="header">
           <div className="logo">后台管理</div>
           <Menu
             theme="dark"
             mode="horizontal"
-            // defaultSelectedKeys={['1']}
+            selectedKeys={[mainKey]}
             style={{ lineHeight: '64px' }}
             className='header-menu'
             onClick={this.handleMainMenu.bind(this)}
           >
           {menuList.map(item => (
-            <Menu.Item key={item.id}>{item.name}</Menu.Item>
+            <Menu.Item key={item.key}>{item.name}</Menu.Item>
           ))}
           </Menu>
           <Dropdown overlay={this.userMenu()}>

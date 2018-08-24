@@ -184,13 +184,13 @@ module.exports = {
     if (token) {
       let payload = JwtUtil.getJWTPayload(token)  // // 解密，获取payload
       // 拉取所有菜单
-      let result = await managerModel.getAllMenu(payload)
+      let {result,list} = await managerModel.getAllMenu(payload)
 
       ctx.body = {
        code: 1,
-       data:result,
+       data:list,
        msg: '获取菜单列表成功',
-       extra:{}
+       extra: result
       }
     } else {
       ctx.body = {

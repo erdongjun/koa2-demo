@@ -99,7 +99,7 @@ const user = {
     let result = await dbUtils.query(sql)
     // 序列化菜单分类
     let list = sortMenuList (result,0,1)
-    return list
+    return {list,result}
   }
 }
 //  无极限分类排序

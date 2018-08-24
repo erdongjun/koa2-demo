@@ -12,14 +12,15 @@ export const Utilfetch = {}
  * @returns {Promise} 
  */
 Utilfetch.get = function (url = '', params = {}, headers = {}) {
+    let baseUrl = '/api' + url
     if (params) {
         let paramsArray = [];
         Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]))
         if (paramsArray.length) {
-            if (url.search(/\?/) === -1) {
-                url += '?' + paramsArray.join('&')
+            if (baseUrl.search(/\?/) === -1) {
+                baseUrl += '?' + paramsArray.join('&')
             } else {
-                url += '&' + paramsArray.join('&')
+                baseUrl += '&' + paramsArray.join('&')
             }
         }
     }
@@ -27,7 +28,7 @@ Utilfetch.get = function (url = '', params = {}, headers = {}) {
         let token = {
             'Authorization': 'Bearer ' + localStorage.getItem('MYTOKEN')
         }
-        fetch(url, {
+        fetch(baseUrl, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -58,11 +59,13 @@ Utilfetch.get = function (url = '', params = {}, headers = {}) {
  * @returns {Promise} 
  */
 Utilfetch.post = function (url = '', params = {}, headers = {}) {
+    let baseUrl = '/api' + url
+
     return new Promise(function (resolve, reject) {
         let token = {
             'Authorization': 'Bearer ' + localStorage.getItem('MYTOKEN')
         }
-        fetch(url, {
+        fetch(baseUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

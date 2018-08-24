@@ -2,7 +2,7 @@
  * @Author: chenweizhi 
  * @Date: 2018-08-17 20:47:08 
  * @Last Modified by: chenweizhi
- * @Last Modified time: 2018-08-17 20:59:01
+ * @Last Modified time: 2018-08-23 21:26:36
  */
 // core 核心组件
 import React, { Component } from 'react'
@@ -11,8 +11,11 @@ import { Layout, Form, Icon, Input, Button, Checkbox, message } from 'antd'
 const FormItem = Form.Item
 // 公共函数
 import { isLogin } from '../../utils/tool'
-// 异步请求函数
+// async 异步请求函数
+
 import { asyncuserLogin } from '../../store/user/index'
+import { asyncMenuList } from '../../store/menu/index'
+
 // css
 import './index.scss'
 class LoginForm extends Component {
@@ -25,10 +28,16 @@ class LoginForm extends Component {
             password: values.password
         })
         if(result.code === 1){
-          message.success(result.msg)
           localStorage.setItem('MYTOKEN',result.extra.token)
           localStorage.setItem('USERINFO',JSON.stringify(result.data))
-          this.props.history.push('/')
+          let res = await asyncMenuList({uid:result.data.uid})
+          if(res.code == 1){
+            localStorage.setItem('MENULIST',JSON.stringify(res))
+            this.props.history.push('/')
+          }else{
+            message.error(res.msg)
+          }
+
         }else{
           message.error(result.msg)
         }

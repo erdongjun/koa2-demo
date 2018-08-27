@@ -109,7 +109,10 @@ function sortMenuList (arr,pid,level){
     if(item.p_id == pid){
       let subItem = item
       subItem.level = level
-      subItem.list = sortMenuList (arr,item.id,++level)
+      let children = sortMenuList (arr,item.id,++level)
+      if(children.length>0){
+        subItem.children = children
+      }
       result.push(subItem)
     }
   })

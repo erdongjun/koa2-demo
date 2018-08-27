@@ -19,7 +19,7 @@ app.use(koaLogger())
 app.use(bodyParser())
 // jwt验证
 app.use(jwtKoa({secret:JwtUtil.secret}).unless({
-  path: [/^\/manager\/signin/] //数组中的路径不需要通过jwt验证
+  path: [/^\/manager\/signin/,/^\/manager\/get91/] //数组中的路径不需要通过jwt验证
 }))
 
 // 静态资源目录对于相对入口文件index.js的路径
@@ -27,7 +27,6 @@ const staticPath = './static'
 app.use(static(
   path.join( __dirname,  staticPath)
 ))
-
 // 配置服务端模板渲染引擎中间件
 app.use(views(path.join(__dirname, './views'), {
   extension: 'ejs'

@@ -29,7 +29,7 @@ class MenuSider extends React.Component {
     let menuArr = []
     menuList.map(item=>{
       if(item.key === mainKey ){
-        menuArr = item && item.list || []
+        menuArr = item && item.children || []
       } 
     })
     return (
@@ -38,7 +38,7 @@ class MenuSider extends React.Component {
       >
         {menuArr.map(item=>(
           <SubMenu key={item.key} title={<span><Icon type="mail" /><span>{item.name}</span></span>}>
-            {item.list.map(subitem=>(
+            {item.children.map(subitem=>(
               <Menu.Item key={subitem.key} onClick={this.handleMainMenu.bind(this)}>{subitem.name}</Menu.Item>
             ))}
           </SubMenu>
